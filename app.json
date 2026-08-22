@@ -1,0 +1,57 @@
+{
+  "expo": {
+    "name": "Swirl",
+    "slug": "swirl-wine-journal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.bwk.swirl",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "Swirl uses Face ID to lock your tasting journal so only you can see it."
+      }
+    },
+    "android": {
+      "package": "com.bwk.swirl",
+      "adaptiveIcon": {
+        "backgroundColor": "#7B1E3B",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-local-authentication",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Swirl uses the camera to photograph wine labels for your tasting journal."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Swirl lets you attach photos of wine labels from your library to your tasting journal.",
+          "cameraPermission": "Swirl uses the camera to photograph wine labels for your tasting journal."
+        }
+      ]
+    ],
+    "extra": {
+      "revenueCatApiKeyIos": "",
+      "eas": {
+        "projectId": "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    "owner": "bkdeveloper123"
+  }
+}
