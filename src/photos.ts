@@ -58,7 +58,10 @@ export function deletePhotoFiles(filenames: string[]): void {
 
 /**
  * Small base64 JPEG thumbnail for embedding in the PDF report.
- * Returns null if the photo can't be read (report proceeds without it).
+ * Tries a real 240px thumbnail first; if the manipulator fails (or
+ * returns no base64), falls back to embedding the stored JPEG as-is —
+ * photos are already re-encoded <=1600px at ingest, so the fallback is
+ * bigger but always works. Returns null only if the file is unreadable.
  */
 export async function photoThumbBase64(filename: string): Promise<string | null> {
   try {
@@ -70,8 +73,15 @@ export async function photoThumbBase64(filename: string): Promise<string | null>
       compress: 0.55,
       base64: true,
     });
-    return saved.base64 ?? null;
+    if (saved.base64) return saved.base64;
   } catch {
-    return null;
+    // fall through to raw-file fallback
   }
+  try {
+    const f = new File(photosDir(), filename);
+    if (f.exists) return await f.base64();
+  } catch {
+    // unreadable file: report proceeds without the photo
+  }
+  return null;
 }
