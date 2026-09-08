@@ -75,3 +75,16 @@ Swirl is a fully offline wine tasting journal. No login or account exists; no de
 - [ ] Device screen recording ready BEFORE submitting (launch → add wine w/ label photo → rate → notebook tab → paywall → purchase) — avoids 2.1
 - [ ] Review contact typed with real key events + Save
 - [ ] EU-27 excluded (DSA trader status — same as OneLine/StuffKeep)
+
+## 1.1.0 (Sep 2026) — cross-locale keywords + ratings engine
+**What's New (paste into ASC):**
+A small update with heart: smoother rating prompts and refinements under the hood. Here's to the next great bottle.
+
+**es-MX keywords (88/99, additional English terms, no title/subtitle/en-US repeats):**
+sparkling,champagne,cabernet,merlot,pinot,chardonnay,sauvignon,label,collection,favorite
+
+**ar-SA keywords (79/99, additional English terms, no repeats):**
+vineyard,tannin,aroma,flavor,palate,score,glass,decant,blend,region,cork,tour
+
+Used already (do not repeat): swirl wine tasting journal / ratings notes cellar log / sommelier vino vintage varietal winery grape bottle red white rose review tracker diary pairing taste.
+Reminder: add localizations via the VERSION page so ASC pre-fills name/subtitle/screenshots from en-US (verified clean on Odo 1.0.1 + StuffKeep 1.1.0).
