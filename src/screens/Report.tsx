@@ -5,6 +5,7 @@ import { Card, PillButton, ProBadge, SectionTitle } from '../components';
 import { useApp } from '../state';
 import { getStats, Stats, exportCsv } from '../db';
 import { generateAndSharePdf } from '../report';
+import { maybeRequestReviewAfterExport } from '../reviews';
 import * as Sharing from 'expo-sharing';
 import { File, Paths } from 'expo-file-system';
 
@@ -34,6 +35,7 @@ export default function ReportScreen() {
     try {
       setBusy(true);
       await generateAndSharePdf();
+      maybeRequestReviewAfterExport();
     } catch (e: any) {
       Alert.alert('Export failed', e?.message ?? 'Please try again.');
     } finally {
