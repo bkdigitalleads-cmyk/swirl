@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import React, { useState } from 'react';
 import {
   Alert,
@@ -140,7 +141,7 @@ export default function SettingsScreen() {
       </Card>
 
       <Text style={[styles.version, { color: theme.textFaint }]}>
-        Swirl v1.0.0 · Made with care in NYC
+        Swirl v{Constants.expoConfig?.version ?? ''} · Made with care in NYC
       </Text>
     </ScrollView>
   );
