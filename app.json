@@ -2,7 +2,7 @@
   "expo": {
     "name": "Swirl",
     "slug": "swirl-wine-journal",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
