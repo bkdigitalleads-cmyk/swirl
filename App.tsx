@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -28,9 +28,12 @@ const TABS: { key: Tab; label: string; icon: string }[] = [
 function Shell() {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const { ready, isPro, showPaywall } = useApp();
+  const { ready, isPro, showPaywall, paywallVisible } = useApp();
   const [tab, setTab] = useState<Tab>('wines');
   const [onboarded, setOnboarded] = useState<boolean | null>(null);
+  // Onboarding order: paywall first, then the setup and attribution questions.
+  const [paywallShown, setPaywallShown] = useState(false);
+  const paywallOpened = useRef(false);
   const [formVisible, setFormVisible] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -40,11 +43,25 @@ function Shell() {
       .catch(() => setOnboarded(true)); // fail open: never trap the user
   }, []);
 
+  // Paywall in onboarding, before anything else (Young, Gate 3).
+  useEffect(() => {
+    if (!ready || onboarded !== false || paywallOpened.current) return;
+    paywallOpened.current = true;
+    if (isPro) {
+      setPaywallShown(true);
+      return;
+    }
+    showPaywall();
+  }, [ready, onboarded, isPro, showPaywall]);
+
+  // When the paywall closes (purchase or ✕), move on to the setup questions.
+  useEffect(() => {
+    if (paywallOpened.current && !paywallVisible) setPaywallShown(true);
+  }, [paywallVisible]);
+
   const finishOnboarding = () => {
     setOnboarded(true);
     AsyncStorage.setItem(ONBOARDED_KEY, '1').catch(() => {});
-    // Trial-forward paywall right after onboarding (skippable via ✕).
-    if (!isPro) showPaywall();
   };
 
   const openNewTasting = () => {
@@ -64,7 +81,7 @@ function Shell() {
   if (!onboarded) {
     return (
       <View style={{ flex: 1, backgroundColor: theme.bg, paddingTop: insets.top }}>
-        <Onboarding onDone={finishOnboarding} />
+        {paywallShown ? <Onboarding onDone={finishOnboarding} /> : null}
         <PaywallModal privacyUrl={PRIVACY_URL} />
       </View>
     );
